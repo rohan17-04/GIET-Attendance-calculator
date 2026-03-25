@@ -175,18 +175,29 @@
             try {
                 // Calculate extra classes during leave
                 let extraClasses = 0;
+                let countedDays = 0;
+                let currentDay = startDay;
+                const loopLimit = 10000;
+                let iterations = 0;
                 
-                // Efficient loop without excessive DOM lookups
-                for (let i = 0; i < leaveDays; i++) {
-                    const today = (startDay + i) % 7;
-                    let classesToday = defaultPerDay;
+                while (countedDays < leaveDays && iterations < loopLimit) {
+                    iterations++;
+                    if (currentDay === 6) { // Sunday
+                        currentDay = (currentDay + 1) % 7;
+                        continue;
+                    }
 
-                    if (today === 6) {
-                        classesToday = 0; // Sunday
-                    } else if (customMap[today] !== undefined) {
-                        classesToday = customMap[today];
+                    let classesToday = defaultPerDay;
+                    if (customMap[currentDay] !== undefined) {
+                        classesToday = customMap[currentDay];
                     }
                     extraClasses += classesToday;
+                    countedDays++;
+                    currentDay = (currentDay + 1) % 7;
+                }
+
+                if (iterations >= loopLimit) {
+                    throw new Error("Calculation limit exceeded");
                 }
 
                 const futureTotal = total + extraClasses;
