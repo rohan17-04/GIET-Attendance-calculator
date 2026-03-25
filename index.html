@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Basic CSP preventing inline scripts (XSS protection) -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none';">
+    <title>GIET Attendance Calculator – Calculate Attendance & Plan Leaves</title>
+    <meta name="description"
+        content="Free GIET Attendance Calculator to check your attendance percentage, plan leaves, and maintain 75% attendance easily.">
+    <meta name="keywords"
+        content="GIET attendance calculator, attendance calculator, college attendance calculator, 75 percent attendance, bunk calculator">
+    <meta name="author" content="Rohan Mohapatra">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="favicon.ico">
+    <!-- Open Graph -->
+    <meta property="og:title" content="GIET Attendance Calculator">
+    <meta property="og:description" content="Calculate attendance, plan leaves, and maintain 75% easily.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="container">
+            <h1>After Leave Attendance Calculator</h1>
+
+            <form class="form" id="calcForm" onsubmit="return false;">
+                <div class="input-group">
+                    <label for="totalClasses">Total Classes Held</label>
+                    <input type="number" id="totalClasses" placeholder="e.g., 50" min="1" step="1" required>
+                    <span class="error" id="err-totalClasses"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="attendedClasses">Classes Attended</label>
+                    <input type="number" id="attendedClasses" placeholder="e.g., 40" min="0" step="1" required>
+                    <span class="error" id="err-attendedClasses"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="defaultPerDay">Default Classes Per Day</label>
+                    <input type="number" id="defaultPerDay" placeholder="e.g., 4" min="0" max="20" step="1" required>
+                    <span class="error" id="err-defaultPerDay"></span>
+                </div>
+
+                <div class="input-group hidden-desktop"></div>
+
+                <h3 style="grid-column: 1 / -1;">Custom Days (add days having diff no. of classes) (Optional)</h3>
+
+                <div id="customDaysList" style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 15px;">
+                    <!-- Dynamic rows will be injected here -->
+                </div>
+
+                <div class="button-group" style="grid-column: 1 / -1; margin-top: 0;">
+                    <button type="button" id="btnAddCustomDay" class="btn-secondary">+ Add Custom Day</button>
+                </div>
+
+                <h3>Leave Details</h3>
+
+                <div class="input-group">
+                    <label for="startDay">Start Day</label>
+                    <select id="startDay">
+                        <option value="0">Monday</option>
+                        <option value="1">Tuesday</option>
+                        <option value="2">Wednesday</option>
+                        <option value="3">Thursday</option>
+                        <option value="4">Friday</option>
+                        <option value="5">Saturday</option>
+                        <option value="6">Sunday</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="leaveDays">Duration (Days)</label>
+                    <input type="number" id="leaveDays" placeholder="e.g., 3" min="1" max="100" step="1" required>
+                    <span class="error" id="err-leaveDays"></span>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" id="btnCalculate">Calculate</button>
+                    <span class="error text-center" id="err-global"></span>
+                </div>
+            </form>
+
+            <div class="result">
+                <p>Current Attendance: <span id="current">-</span></p>
+                <p>Future Attendance: <span id="future">-</span></p>
+                <p>Total Classes After Leave: <span id="totalFuture">-</span></p>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button id="btnNavFuture">Go to After Regular Classes Calculator ➡</button>
+        </div>
+
+        <p class="note">
+            Note: Leave calculator counts all days including Sunday.<br>
+            Sunday is treated as a holiday (0 classes) but still included in your leave duration.
+        </p>
+    </div>
+
+    <footer class="footer">
+        <div
+            style="max-width:750px; margin: 0 auto 40px auto; color:#94a3b8; font-size:14px; line-height:1.6; width: min(100%, 750px); text-align: left;">
+            <h2 style="color: #f8fafc; font-size: 18px; margin-bottom: 10px;">GIET Attendance Calculator</h2>
+            <p style="margin-bottom: 20px;">
+                This attendance calculator helps students calculate their attendance percentage,
+                plan leaves, and ensure they maintain the required 75% attendance.
+            </p>
+
+            <h3
+                style="color: #f8fafc; font-size: 16px; margin-bottom: 10px; border-bottom: none; letter-spacing: normal; text-transform: none; padding-bottom: 0;">
+                How it works</h3>
+            <p style="margin-bottom: 20px;">
+                Enter total classes, attended classes, and your daily schedule. The tool calculates
+                your future attendance after leave or regular attendance.
+            </p>
+
+            <h3
+                style="color: #f8fafc; font-size: 16px; margin-bottom: 10px; border-bottom: none; letter-spacing: normal; text-transform: none; padding-bottom: 0;">
+                Why use this?</h3>
+            <p style="margin-bottom: 20px;">
+                Helps you decide how many classes you can skip and still stay above 75%.
+            </p>
+        </div>
+
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://github.com/rohan17-04" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Attendance Calculator GIET - Rohan Mohapatra</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="particles.js"></script>
+</body>
+
+</html>
