@@ -277,19 +277,18 @@ h3 {
 }
 
 /* SECONDARY NAVIGATION */
-.bottom-nav {
+.top-nav {
     width: min(100%, 750px);
     display: flex;
     justify-content: flex-end;
-    margin-top: 25px;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
-.bottom-nav.left {
+.top-nav.left {
     justify-content: flex-start;
 }
 
-.bottom-nav button {
+.top-nav button {
     padding: 12px 24px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
@@ -302,7 +301,7 @@ h3 {
     backdrop-filter: blur(10px);
 }
 
-.bottom-nav button:hover {
+.top-nav button:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
     border-color: rgba(255, 255, 255, 0.2);
